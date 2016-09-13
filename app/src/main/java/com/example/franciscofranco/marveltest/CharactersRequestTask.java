@@ -54,7 +54,8 @@ class CharactersRequestTask extends AsyncTask<String, Void, JSONObject> {
                     .appendQueryParameter(TS_PARAM, params[0])
                     .appendQueryParameter(API_KEY_PARAM, apiKey)
                     .appendQueryParameter(HASH_PARAM, md5.md5(params[0] + privateKey + apiKey))
-                    .appendQueryParameter(OFFSET, "1485")
+                    .appendQueryParameter(LIMIT, "100")
+                    .appendQueryParameter(OFFSET, params[1])
                     .build();
 
             URL url = new URL(builtUri.toString());

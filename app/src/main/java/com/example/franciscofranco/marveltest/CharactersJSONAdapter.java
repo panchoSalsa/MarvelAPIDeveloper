@@ -100,8 +100,16 @@ public class CharactersJSONAdapter extends BaseAdapter{
     }
 
     public void updateData(JSONArray jsonArray) {
+
         // update the adapter's dataset
         mJsonArray = jsonArray;
         notifyDataSetChanged();
+
+    }
+
+    public void clearData() {
+
+        mJsonArray = new JSONArray();
+
     }
 }
