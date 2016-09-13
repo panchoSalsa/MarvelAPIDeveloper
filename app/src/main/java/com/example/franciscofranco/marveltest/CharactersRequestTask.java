@@ -47,13 +47,14 @@ class CharactersRequestTask extends AsyncTask<String, Void, JSONObject> {
             final String TS_PARAM = "ts";
             final String API_KEY_PARAM = "apikey";
             final String HASH_PARAM = "hash";
-            final String LIMIT= "limit";
+            final String LIMIT = "limit";
+            final String OFFSET = "offset";
 
             Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                     .appendQueryParameter(TS_PARAM, params[0])
                     .appendQueryParameter(API_KEY_PARAM, apiKey)
                     .appendQueryParameter(HASH_PARAM, md5.md5(params[0] + privateKey + apiKey))
-                    .appendQueryParameter(LIMIT, "100")
+                    .appendQueryParameter(OFFSET, "1485")
                     .build();
 
             URL url = new URL(builtUri.toString());
@@ -117,7 +118,15 @@ class CharactersRequestTask extends AsyncTask<String, Void, JSONObject> {
         try {
 
             results = response.getJSONObject("data").getJSONArray("results");
-            adapter.updateData(results);
+
+            if (results == null)
+
+                // raise flag to signal you have reached the last page
+
+                return;
+            else {
+                adapter.updateData(results);
+            }
 
         } catch (JSONException e) {
             e.printStackTrace();
