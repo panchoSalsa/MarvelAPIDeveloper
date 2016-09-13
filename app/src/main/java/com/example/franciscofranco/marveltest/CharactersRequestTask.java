@@ -4,10 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
-
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,14 +16,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-class RequestTask extends AsyncTask<String, Void, JSONObject> {
+class CharactersRequestTask extends AsyncTask<String, Void, JSONObject> {
 
     private Context context;
-    private ImageView thumbnail;
+    private CharactersJSONAdapter adapter;
 
-    public RequestTask(Context context, ImageView thumbnail) {
+    public CharactersRequestTask(Context context, CharactersJSONAdapter adapter) {
         this.context = context;
-        this.thumbnail = thumbnail;
+        this.adapter = adapter;
     }
 
     @Override
@@ -38,7 +36,6 @@ class RequestTask extends AsyncTask<String, Void, JSONObject> {
         HttpURLConnection urlConnection = null;
         BufferedReader reader = null;
 
-        String jsonStr = null;
         String privateKey = "6f7c49db00e026d7e0f5f9e3bfa4cdddd46c329b";
         String apiKey = "7ea2b0fd0ae54a8fa8ab0355470ddb47";
 
@@ -50,12 +47,13 @@ class RequestTask extends AsyncTask<String, Void, JSONObject> {
             final String TS_PARAM = "ts";
             final String API_KEY_PARAM = "apikey";
             final String HASH_PARAM = "hash";
-
+            final String LIMIT= "limit";
 
             Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                     .appendQueryParameter(TS_PARAM, params[0])
                     .appendQueryParameter(API_KEY_PARAM, apiKey)
                     .appendQueryParameter(HASH_PARAM, md5.md5(params[0] + privateKey + apiKey))
+                    .appendQueryParameter(LIMIT, "100")
                     .build();
 
             URL url = new URL(builtUri.toString());
@@ -82,20 +80,9 @@ class RequestTask extends AsyncTask<String, Void, JSONObject> {
                 return null;
             }
 
-            jsonStr = buffer.toString();
-
-
             try {
-                response = new JSONObject(jsonStr);
-//                JSONObject thumbnail = obj.getJSONObject("data").getJSONArray("results")
-//                        .getJSONObject(0).getJSONObject("thumbnail");
-//                String thumbnailUrl = thumbnail.getString("path")
-//                        + "." + thumbnail.getString("extension");
 
-//                Picasso.with()
-//                        .load(thumbnailUrl)
-//                        .into(im)
-
+                response = new JSONObject(buffer.toString());
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -116,26 +103,25 @@ class RequestTask extends AsyncTask<String, Void, JSONObject> {
                 }
             }
         }
-        Log.d("FRANCO_DEBUG", jsonStr);
+
         return response;
     }
 
     @Override
     protected void onPostExecute(JSONObject response) {
+
         super.onPostExecute(response);
 
-        JSONObject thumbnailObj = null;
-        String thumbnailUrl = null;
+        JSONArray results = null;
+
         try {
-            thumbnailObj = response.getJSONObject("data").getJSONArray("results")
-                    .getJSONObject(0).getJSONObject("thumbnail");
-            thumbnailUrl = thumbnailObj.getString("path")
-                    + "." + thumbnailObj.getString("extension");
+
+            results = response.getJSONObject("data").getJSONArray("results");
+            adapter.updateData(results);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Picasso.with(context)
-                .load(thumbnailUrl)
-                .into(thumbnail);
+
     }
 }

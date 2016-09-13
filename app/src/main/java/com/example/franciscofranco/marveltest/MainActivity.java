@@ -2,20 +2,24 @@ package com.example.franciscofranco.marveltest;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ImageView;
+import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ImageView thumbnail;
+    private ListView listView;
+    private CharactersJSONAdapter charactersJSONAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        thumbnail = (ImageView) findViewById(R.id.thumbnail);
+        listView = (ListView) findViewById(R.id.characterList);
+        charactersJSONAdapter = new CharactersJSONAdapter(this, getLayoutInflater());
 
-        RequestTask myTask = new RequestTask(this, thumbnail);
+        listView.setAdapter(charactersJSONAdapter);
+
+        CharactersRequestTask myTask = new CharactersRequestTask(this, charactersJSONAdapter);
         myTask.execute("timestamp");
     }
 }
