@@ -21,9 +21,11 @@ public class CharactersJSONAdapter extends BaseAdapter{
     private JSONArray mJsonArray;
 
     public CharactersJSONAdapter(Context context, LayoutInflater inflater) {
+
         mContext = context;
         mInflater = inflater;
         mJsonArray = new JSONArray();
+
     }
 
     @Override
@@ -101,10 +103,27 @@ public class CharactersJSONAdapter extends BaseAdapter{
 
     public void updateData(JSONArray jsonArray) {
 
-        // update the adapter's dataset
-        mJsonArray = jsonArray;
+        try {
+            mJsonArray = concatArray(mJsonArray,jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         notifyDataSetChanged();
 
+    }
+
+    private JSONArray concatArray(JSONArray... arrs) throws  JSONException {
+
+        JSONArray result = new JSONArray();
+
+        for (JSONArray arr: arrs) {
+            for (int i = 0; i < arr.length(); ++i) {
+                result.put(arr.get(i));
+            }
+        }
+
+        return result;
     }
 
     public void clearData() {

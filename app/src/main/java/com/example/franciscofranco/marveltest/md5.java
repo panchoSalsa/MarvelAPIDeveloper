@@ -5,8 +5,10 @@ import java.security.NoSuchAlgorithmException;
 
 public class md5 {
     public static final String md5(final String s) {
+
         final String MD5 = "MD5";
         try {
+
             // Create MD5 Hash
             MessageDigest digest = java.security.MessageDigest
                     .getInstance(MD5);
@@ -26,6 +28,8 @@ public class md5 {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
+
         return "";
+
     }
 }

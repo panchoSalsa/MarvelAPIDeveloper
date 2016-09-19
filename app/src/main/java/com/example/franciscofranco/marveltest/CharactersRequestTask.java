@@ -22,8 +22,18 @@ class CharactersRequestTask extends AsyncTask<String, Void, JSONObject> {
     private CharactersJSONAdapter adapter;
 
     public CharactersRequestTask(Context context, CharactersJSONAdapter adapter) {
+
         this.context = context;
         this.adapter = adapter;
+
+    }
+
+    @Override
+    protected void onPreExecute() {
+
+        super.onPreExecute();
+
+        MainActivity.loadingMore = true;
     }
 
     @Override
@@ -122,11 +132,15 @@ class CharactersRequestTask extends AsyncTask<String, Void, JSONObject> {
 
             if (results == null)
 
-                // raise flag to signal you have reached the last page
-
                 return;
+
             else {
+
                 adapter.updateData(results);
+
+                MainActivity.listView.setSelection(MainActivity.offset);
+
+                MainActivity.loadingMore = false;
             }
 
         } catch (JSONException e) {
