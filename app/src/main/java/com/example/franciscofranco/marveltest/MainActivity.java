@@ -141,4 +141,12 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
+
+    public void Search(View view) {
+
+        Intent intent = new Intent(getApplicationContext(), HeroByName.class);
+        startActivity(intent);
+
+    }
+
 }

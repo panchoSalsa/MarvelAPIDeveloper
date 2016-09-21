@@ -1,7 +1,6 @@
 package com.example.franciscofranco.marveltest;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +14,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class CharactersJSONAdapter extends BaseAdapter{
+public class HeroJSONAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater mInflater;
     private JSONArray mJsonArray;
 
-    public CharactersJSONAdapter(Context context, LayoutInflater inflater) {
+    public HeroJSONAdapter(Context context, LayoutInflater inflater) {
 
         mContext = context;
         mInflater = inflater;
@@ -104,34 +103,8 @@ public class CharactersJSONAdapter extends BaseAdapter{
 
     public void updateData(JSONArray jsonArray) {
 
-        Log.d("FRANCO_DEBUG", jsonArray.toString());
-
-        try {
-            mJsonArray = concatArray(mJsonArray,jsonArray);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        notifyDataSetChanged();
-
-    }
-
-    private JSONArray concatArray(JSONArray... arrs) throws  JSONException {
-
-        JSONArray result = new JSONArray();
-
-        for (JSONArray arr: arrs) {
-            for (int i = 0; i < arr.length(); ++i) {
-                result.put(arr.get(i));
-            }
-        }
-
-        return result;
-    }
-
-    public void clearData() {
-
-        mJsonArray = new JSONArray();
+            mJsonArray = jsonArray;
+            notifyDataSetChanged();
 
     }
 }

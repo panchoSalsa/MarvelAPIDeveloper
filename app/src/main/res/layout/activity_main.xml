@@ -10,6 +10,12 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <Button
+        android:text="Search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="Search"/>
+
     <ListView
         android:id="@+id/characterList"
         android:layout_width="match_parent"
