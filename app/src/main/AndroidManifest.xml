@@ -21,6 +21,10 @@
         </activity>
         <activity android:name=".HeroByName" >
         </activity>
+        <activity android:name=".ComicsActivity" >
+        </activity>
+        <activity android:name=".ComicDetailsActivity" >
+        </activity>
     </application>
 
 </manifest>

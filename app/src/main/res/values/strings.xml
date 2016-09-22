@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">MarvelTest</string>
-    <string name="next">next</string>
-    <string name="previous">previous</string>
+    <string name="comics">Comics</string>
     <string name="title_activity_hero_by_name">HeroByName</string>
 </resources>

@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity  {
     public static final String NAME = "name";
     public static final String THUMBNAIL_URL = "thumbnailUrl";
     public static final String DESCRIPTION = "description";
+    public static final String ID = "id";
 
     private final int MAX = 1400;
     private final int OFFSET = 100;
@@ -96,12 +97,15 @@ public class MainActivity extends AppCompatActivity  {
         String name = null;
         String thumbnailUrl = null;
         String description = null;
+        int id = 0;
 
         JSONObject obj = (JSONObject) charactersJSONAdapter.getItem(position);
 
         try {
 
             name = obj.getString("name");
+
+            id = obj.getInt("id");
 
             JSONObject thumbnail = obj.getJSONObject("thumbnail");
             thumbnailUrl = thumbnail.getString("path")
@@ -115,6 +119,7 @@ public class MainActivity extends AppCompatActivity  {
         }
 
         intent.putExtra(NAME, name);
+        intent.putExtra(ID, id);
         intent.putExtra(THUMBNAIL_URL, thumbnailUrl);
         intent.putExtra(DESCRIPTION, description);
         startActivity(intent);
